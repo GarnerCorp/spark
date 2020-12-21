@@ -3,15 +3,18 @@
 !connect jdbc:hive2://localhost:10001/default?hive.server2.transport.mode=http;hive.server2.thrift.http.path=cliservice;
 help
 me
-CREATE EXTERNAL TABLE dummy_base (Name STRING, Lastname STRING) ROW FORMAT DELIMITED FIELDS TERMINATED BY ',' STORED AS TEXTFILE location  './externals/dummy';
-create function zar as 'com.example.hive.udf.RandintUDTF_test' USING JAR './jars/udf_test_2.12-0.1.jar';
-CREATE VIEW randpudf
-AS SELECT zar(Name) FROM dummy_base;
-create function session_udtf as 'com.example.hive.udf.UDFT_sessiondata' USING JAR './jars/udf_test_2.12-0.1.jar';
-CREATE VIEW tempudf2
-AS SELECT session_udtf(Name) FROM dummy_base;
-create function test_udf as 'com.example.hive.udf.udf_session' USING JAR './jars/udf_test_2.12-0.1.jar';
-SELECT * FROM dummy_base;
-SELECT * FROM tempudf2;
-SELECT * FROM randpudf;
+DROP TABLE IF EXISTS default.dummy_base;
+CREATE EXTERNAL TABLE dummy_base (Value STRING) ROW FORMAT DELIMITED FIELDS TERMINATED BY ',' STORED AS TEXTFILE location  './externals';
+DROP FUNCTION IF EXISTS default.auth_session;
+create function auth_session as 'com.udfs.sessionData.AuthSessionData' USING JAR './jars/business-analytics-scala_2.13-1.0.jar';
+DROP VIEW IF EXISTS default.auth_data;
+CREATE VIEW auth_data AS SELECT auth_session(Value) FROM dummy_base;
+DROP FUNCTION IF EXISTS default.materialIsAt_func;
+create function materialIsAt_func as 'com.udfs.Materials.MaterialIsAt' USING JAR './jars/business-analytics-scala_2.13-1.0.jar';
+DROP VIEW IF EXISTS default.materialIsAt;
+CREATE VIEW materialIsAt AS SELECT materialIsAt_func(Value) FROM dummy_base;
+SELECT * FROM materialIsAt;
 EOF
+
+
+create function auth_session as 'com.udfs.sessionData.AuthSessionData' USING JAR './business-analytics-scala_2.13-1.0.jar';
