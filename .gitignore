@@ -103,3 +103,6 @@ spark-warehouse/
 
 # For SBT
 .jvmopts
+
+#garner
+garner/jars/
