@@ -1,3 +1,3 @@
 #!/usr/bin/env bash
-/bin/bash ../sbin/stop-all.sh
-/bin/bash ../sbin/stop-thriftserver.sh
+/bin/bash $SPARK_HOME/sbin/stop-all.sh
+/bin/bash $SPARK_HOME/sbin/stop-thriftserver.sh

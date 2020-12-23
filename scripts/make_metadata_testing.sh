@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-/bin/bash ../bin/beeline <<EOF
+/bin/bash ./bin/beeline <<EOF
 !connect jdbc:hive2://localhost:10001/default?hive.server2.transport.mode=http;hive.server2.thrift.http.path=cliservice;
 help
 me
