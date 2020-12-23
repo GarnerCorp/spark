@@ -81,6 +81,7 @@ streaming-tests.log
 target/
 unit-tests.log
 work/
+jars/
 docs/.jekyll-metadata
 docs/.jekyll-cache
 
