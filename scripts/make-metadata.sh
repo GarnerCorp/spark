@@ -11,10 +11,12 @@ DROP FUNCTION IF EXISTS default.auth_session;
 create function auth_session as 'com.udfs.sessionData.AuthSessionData';
 DROP VIEW IF EXISTS default.auth_data;
 CREATE VIEW auth_data AS SELECT auth_session(Value) FROM dummy_base;
+
 DROP FUNCTION IF EXISTS default.materialIsAt_func;
-create function materialIsAt_func as 'com.udfs.Materials.MaterialIsAt';
+create function materialIsAt_func as 'com.udfs.views.materialIsAt.MaterialIsAtTable';
 DROP VIEW IF EXISTS default.materialIsAt;
 CREATE VIEW materialIsAt AS SELECT materialIsAt_func(Value) FROM dummy_base;
+
 SELECT * FROM materialIsAt;
 EOF
 

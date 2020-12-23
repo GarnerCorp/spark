@@ -11,6 +11,6 @@ sleep 5s
 echo sleeping 5s, waiting for hiveserver2 to get its s**t together
 sleep 5s
 wait
-#/bin/bash $SPARK_HOME/garner_scripts/make_metadata.sh
+/bin/bash $SPARK_HOME/scripts/make-metadata.sh
 
 
