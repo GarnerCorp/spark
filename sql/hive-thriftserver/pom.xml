@@ -135,7 +135,8 @@
     </dependency>
     <dependency>
       <groupId>com.garnercorp</groupId>
-      <artifactId>business-analytics-scala_2.13-1.0.0</artifactId>
+      <artifactId>business-analytics-scala_2.13</artifactId>
+      <version>1.0.0</version>
     </dependency>
 
   </dependencies>
