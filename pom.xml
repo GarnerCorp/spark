@@ -270,7 +270,7 @@
         <enabled>true</enabled>
       </releases>
       <snapshots>
-        <enabled>false</enabled>
+        <enabled>true</enabled>
       </snapshots>
     </repository>
     <repository>
@@ -284,23 +284,23 @@
         <enabled>true</enabled>
       </releases>
       <snapshots>
-        <enabled>false</enabled>
-      </snapshots>
-    </repository>
-    <repository>
-      <!--
-        This is used for Garner libraries
-      -->
-      <id>garner</id>
-      <name>Nexus Repository</name>
-      <url>https://nexus.garnercorp.com/repository/maven-all/</url>
-      <releases>
-        <enabled>true</enabled>
-      </releases>
-      <snapshots>
         <enabled>true</enabled>
       </snapshots>
     </repository>
+<!--    <repository>-->
+<!--      &lt;!&ndash;-->
+<!--        This is used for Garner libraries-->
+<!--      &ndash;&gt;-->
+<!--      <id>garner</id>-->
+<!--      <name>Nexus Repository</name>-->
+<!--      <url>https://nexus.garnercorp.com/repository/maven-all/</url>-->
+<!--      <releases>-->
+<!--        <enabled>true</enabled>-->
+<!--      </releases>-->
+<!--      <snapshots>-->
+<!--        <enabled>true</enabled>-->
+<!--      </snapshots>-->
+<!--    </repository>-->
   </repositories>
   <pluginRepositories>
     <pluginRepository>
