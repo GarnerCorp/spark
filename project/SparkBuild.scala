@@ -15,29 +15,25 @@
  * limitations under the License.
  */
 
-import java.io._
-import java.nio.charset.StandardCharsets.UTF_8
-import java.nio.file.Files
-import java.util.Locale
-
-import scala.io.Source
-import scala.util.Properties
-import scala.collection.JavaConverters._
-import scala.collection.mutable.ListBuffer
-
-import sbt._
-import sbt.Classpaths.publishTask
-import sbt.Keys._
-import sbt.librarymanagement.{ VersionNumber, SemanticSelector }
 import com.etsy.sbt.checkstyle.CheckstylePlugin.autoImport._
-import com.simplytyped.Antlr4Plugin._
 import com.typesafe.sbt.pom.{PomBuild, SbtPomKeys}
 import com.typesafe.tools.mima.plugin.MimaKeys
 import org.scalastyle.sbt.ScalastylePlugin.autoImport._
 import org.scalastyle.sbt.Tasks
-import sbtassembly.AssemblyPlugin.autoImport._
+import sbt.Classpaths.publishTask
+import sbt.Keys.{publishTo, resolvers, _}
+import sbt._
+import sbt.librarymanagement.{SemanticSelector, VersionNumber}
 
-import spray.revolver.RevolverPlugin._
+import java.io._
+import java.nio.charset.StandardCharsets.UTF_8
+import java.nio.file.Files
+import java.util.Locale
+import scala.Seq
+import scala.collection.JavaConverters._
+import scala.collection.mutable.ListBuffer
+import scala.io.Source
+import scala.util.Properties
 
 object BuildCommons {
 
