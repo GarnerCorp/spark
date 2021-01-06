@@ -790,13 +790,44 @@ object YARN {
   )
 }
 
+object Nexus {
+  val release = "https://nexus.garnercorp.com/repository/maven-releases"
+  val snapshot = "https://nexus.garnercorp.com/repository/maven-snapshots"
+  val proxy = "https://nexus.garnercorp.com/repository/maven-all"
+
+  val publishSnapshot = true
+
+  lazy val settings = Seq(
+    (sys.env.get("NEXUS_USER"), sys.env.get("NEXUS_PASSWORD")) match {
+      case (Some(user), Some(password)) =>
+        credentials += Credentials(
+          "Sonatype Nexus Repository Manager",
+          "nexus.garnercorp.com",
+          user,
+          password
+        )
+      case _ =>
+        credentials += Credentials(Path.userHome / ".ivy2" / ".credentials")
+    },
+    resolvers += "Nexus" at proxy,
+    publishTo := {
+      if (publishSnapshot) {
+        Some("snapshots" at snapshot)
+      } else {
+        Some("releases" at release)
+      }
+    }
+  )
+}
+
+
 object Assembly {
   import sbtassembly.AssemblyUtils._
   import sbtassembly.AssemblyPlugin.autoImport._
 
   val hadoopVersion = taskKey[String]("The version of hadoop that spark is compiled against.")
 
-  lazy val settings = baseAssemblySettings ++ Seq(
+  lazy val settings = baseAssemblySettings ++ Nexus.settings ++ Seq(
     test in assembly := {},
     hadoopVersion := {
       sys.props.get("hadoop.version")
@@ -877,12 +908,9 @@ object PySparkAssembly {
 object Unidoc {
 
   import BuildCommons._
-  import sbtunidoc.BaseUnidocPlugin
-  import sbtunidoc.JavaUnidocPlugin
-  import sbtunidoc.ScalaUnidocPlugin
   import sbtunidoc.BaseUnidocPlugin.autoImport._
-  import sbtunidoc.GenJavadocPlugin.autoImport._
   import sbtunidoc.JavaUnidocPlugin.autoImport._
+  import sbtunidoc.{BaseUnidocPlugin, JavaUnidocPlugin, ScalaUnidocPlugin}
   import sbtunidoc.ScalaUnidocPlugin.autoImport._
 
   private def ignoreUndocumentedPackages(packages: Seq[Seq[File]]): Seq[Seq[File]] = {
