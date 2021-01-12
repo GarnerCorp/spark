@@ -291,14 +291,14 @@
       <!--
         This is used for Garner libraries
       -->
-      <id>garner</id>
+      <id>garner-nexus</id>
       <name>Nexus Repository</name>
       <url>https://nexus.garnercorp.com/repository/maven-all/</url>
       <releases>
         <enabled>true</enabled>
       </releases>
       <snapshots>
-        <enabled>false</enabled>
+        <enabled>true</enabled>
       </snapshots>
     </repository>
   </repositories>
