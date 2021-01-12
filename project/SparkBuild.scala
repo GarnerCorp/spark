@@ -248,7 +248,8 @@ object SparkBuild extends PomBuild {
     }
   )
 
-  lazy val sharedSettings = sparkGenjavadocSettings ++
+  lazy val sharedSettings = Nexus.settings ++
+                            sparkGenjavadocSettings ++
                             compilerWarningSettings ++
       (if (sys.env.contains("NOLINT_ON_COMPILE")) Nil else enableScalaStyle) ++ Seq(
     exportJars in Compile := true,
@@ -260,7 +261,7 @@ object SparkBuild extends PomBuild {
     unidocGenjavadocVersion := "0.16",
 
     // Override SBT's default resolvers:
-    resolvers := Seq(
+    resolvers ++= Seq(
       // Google Mirror of Maven Central, placed first so that it's used instead of flaky Maven Central.
       // See https://storage-download.googleapis.com/maven-central/index.html for more info.
       "gcs-maven-central-mirror" at "https://maven-central.storage-download.googleapis.com/maven2/",
@@ -283,6 +284,9 @@ object SparkBuild extends PomBuild {
     publishLocal in MavenCompile := publishTask(publishLocalConfiguration in MavenCompile).value,
     publishLocal in SbtCompile := publishTask(publishLocalConfiguration in SbtCompile).value,
     publishLocal := Seq(publishLocal in MavenCompile, publishLocal in SbtCompile).dependOn.value,
+    publishArtifact in (Compile, packageDoc) := false,
+    publishArtifact in (Test, packageDoc) := false,
+    Test / publishArtifact := true,
 
     javacOptions in (Compile, doc) ++= {
       val versionParts = System.getProperty("java.version").split("[+.\\-]+", 3)
@@ -809,12 +813,16 @@ object Nexus {
       case _ =>
         credentials += Credentials(Path.userHome / ".ivy2" / ".credentials")
     },
-    resolvers += "Nexus" at proxy,
+    resolvers ++= Seq(
+      "Nexus" at proxy,
+      "Nexus-snapshots" at snapshot,
+      "Nexus-releases" at release
+    ),
     publishTo := {
-      if (publishSnapshot) {
-        Some("snapshots" at snapshot)
+      if (isSnapshot.value) {
+        Some("Nexus-snapshots" at snapshot)
       } else {
-        Some("releases" at release)
+        Some("Nexus-releases" at release)
       }
     }
   )
