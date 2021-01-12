@@ -799,8 +799,6 @@ object Nexus {
   val snapshot = "https://nexus.garnercorp.com/repository/maven-snapshots"
   val proxy = "https://nexus.garnercorp.com/repository/maven-all"
 
-  val publishSnapshot = true
-
   lazy val settings = Seq(
     (sys.env.get("NEXUS_USER"), sys.env.get("NEXUS_PASSWORD")) match {
       case (Some(user), Some(password)) =>
