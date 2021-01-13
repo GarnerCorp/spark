@@ -1,9 +1,4 @@
+##Scala 2.13
+To build and package see:
 
-
-build package individually
-```bash 
-./build/mvn -pl org.apache.spark:spark-sql_2.12 -DskipTests package
-```
-
- ./build/mvn -pl :spark-hive-thriftserver_2.12 -DskipTests -Phive-thriftserver package
-
+https://confluence.garnercorp.com/display/DEV/2021/01/08/Spark+with+garner+Scala+2.13+libraries
