@@ -88,6 +88,7 @@ abstract class Optimizer(catalogManager: CatalogManager)
         EliminateLimits,
         CombineUnions,
         // Constant folding and strength reduction
+        OptimizeRepartition,
         TransposeWindow,
         NullPropagation,
         ConstantPropagation,
@@ -417,7 +418,7 @@ object RemoveRedundantAliases extends Rule[LogicalPlan] {
     // If the alias name is different from attribute name, we can't strip it either, or we
     // may accidentally change the output schema name of the root plan.
     case a @ Alias(attr: Attribute, name)
-      if a.metadata == Metadata.empty &&
+      if (a.metadata == Metadata.empty || a.metadata == attr.metadata) &&
         name == attr.name &&
         !excludeList.contains(attr) &&
         !excludeList.contains(a) =>
@@ -815,6 +816,19 @@ object CollapseRepartition extends Rule[LogicalPlan] {
     // we can remove the child.
     case r @ RepartitionByExpression(_, child: RepartitionOperation, _) =>
       r.copy(child = child.child)
+  }
+}
+
+/**
+ * Replace RepartitionByExpression numPartitions to 1 if all partition expressions are foldable
+ * and user not specify.
+ */
+object OptimizeRepartition extends Rule[LogicalPlan] {
+  override def apply(plan: LogicalPlan): LogicalPlan = plan.transform {
+    case r @ RepartitionByExpression(partitionExpressions, _, numPartitions)
+      if partitionExpressions.nonEmpty && partitionExpressions.forall(_.foldable) &&
+        numPartitions.isEmpty =>
+      r.copy(optNumPartitions = Some(1))
   }
 }
 
