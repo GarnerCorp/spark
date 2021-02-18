@@ -40,6 +40,9 @@ import org.apache.spark.sql.types._
 import org.apache.spark.unsafe.types.CalendarInterval
 import org.apache.spark.util.{Utils => SparkUtils}
 
+import org.apache.spark.sql.SparkSession
+import com.garnercorp.thriftserver.authentication.TokenStore
+
 private[hive] class SparkExecuteStatementOperation(
     val sqlContext: SQLContext,
     parentSession: HiveSession,
@@ -285,12 +288,25 @@ private[hive] class SparkExecuteStatementOperation(
       if (!runInBackground) {
         parentSession.getSessionState.getConf.setClassLoader(executionHiveClassLoader)
       }
+      val garner_username=parentSession.getUsername + "@garnercorp.com"
+      val garner_password= parentSession.getPassword
+      val garner_token=TokenStore.getTokenByUsername(garner_username)
+      val session_garner= SparkSession.builder().getOrCreate()
+
+      session_garner.sparkContext.setLocalProperty("username", garner_username)
+      session_garner.sparkContext.setLocalProperty("idtoken", garner_token)
 
       sqlContext.sparkContext.setJobGroup(statementId, substitutorStatement, forceCancel)
+
+      logError(s"GARNER-SparkExecuteStatementOperation-execute before Result ")
+      logError(s"username= $garner_username password= $garner_password tokenfromStore= $garner_token")
+
       result = sqlContext.sql(statement)
+      logError(s"GARNER-SparkExecuteStatementOperation-execute after Result")
       logDebug(result.queryExecution.toString())
       HiveThriftServer2.eventManager.onStatementParsed(statementId,
         result.queryExecution.toString())
+      logError(s"GARNER-SparkExecuteStatementOperation-execute after query excecution")
       iter = if (sqlContext.getConf(SQLConf.THRIFTSERVER_INCREMENTAL_COLLECT.key).toBoolean) {
         new IterableFetchIterator[SparkRow](new Iterable[SparkRow] {
           override def iterator: Iterator[SparkRow] = result.toLocalIterator.asScala

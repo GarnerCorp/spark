@@ -56,6 +56,8 @@ private[thriftserver] class SparkSQLOperationManager()
     handleToOperation.put(operation.getHandle, operation)
     logDebug(s"Created Operation for $statement with session=$parentSession, " +
       s"runInBackground=$runInBackground")
+    val username = parentSession.getUsername()
+    System.err.println(s"GARNER-newExecuteStatementOperation $statement username: $username")
     operation
   }
 

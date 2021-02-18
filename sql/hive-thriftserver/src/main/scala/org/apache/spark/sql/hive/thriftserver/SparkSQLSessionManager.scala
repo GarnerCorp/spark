@@ -56,7 +56,10 @@ private[hive] class SparkSQLSessionManager(hiveServer: HiveServer2, sqlContext: 
       super.openSession(protocol, username, passwd, ipAddress, sessionConf, withImpersonation,
           delegationToken)
     try {
+
       val session = super.getSession(sessionHandle)
+      val garner_username=session.getUsername
+      System.err.println(s"GARNER-SparkSQLSessionManager openging session $garner_username")
       HiveThriftServer2.eventManager.onSessionCreated(
         session.getIpAddress, sessionHandle.getSessionId.toString, session.getUsername)
       val ctx = if (sqlContext.conf.hiveThriftServerSingleSession) {
