@@ -28,6 +28,42 @@
         <value>cliservice</value>
     </property>
     <property>
+        <name>javax.jdo.option.ConnectionURL</name>
+        <value>jdbc:postgresql://localhost:5432/postgres?createDatabaseIfNotExist=true;autoReconnect=true;useSSL=false</value>
+    </property>
+    <property>
+        <name>hive.metastore.schema.verification</name>
+        <value>false</value>
+    </property>
+    <property>
+        <name>datanucleus.schema.autoCreateTables</name>
+        <value>true</value>
+    </property>
+    <property>
+        <name>datanucleus.autoCreateSchema</name>
+        <value>false</value>
+    </property>
+    <property>
+        <name>hive.metastore.schema.verification.record.version</name>
+        <value>false</value>
+    </property>
+    <property>
+        <name>javax.jdo.option.ConnectionDriverName</name>
+        <value>org.postgresql.Driver</value>
+    </property>
+
+    <property>
+        <name>javax.jdo.option.ConnectionUserName</name>
+        <value>postgres</value>
+    </property>
+
+    <property>
+        <name>javax.jdo.option.ConnectionPassword</name>
+        <value>machT333</value>
+    </property>
+
+
+    <property>
         <name>hadoop.proxyuser.hiveuser.hosts</name>
         <value>*</value>
     </property>
