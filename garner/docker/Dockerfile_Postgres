@@ -1,0 +1,2 @@
+FROM postgres
+COPY ./postgres-init/init_readonly.sh /docker-entrypoint-initdb.d/init_readonly.sh

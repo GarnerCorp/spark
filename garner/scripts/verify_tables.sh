@@ -1,7 +1,7 @@
 #!/usr/bin/env zsh
 source ${0:a:h}/garner.env
 /bin/bash $SPARK_HOME/bin/beeline <<EOF
-!connect jdbc:hive2://localhost:10001/default?hive.server2.transport.mode=http;hive.server2.thrift.http.path=cliservice;
+!connect jdbc:hive2://localhost:$HIVE_SERVER_PORT/default?hive.server2.transport.mode=http;hive.server2.thrift.http.path=cliservice;
 $LOCAL_AUTH_EMAIL
 $LOCAL_AUTH_PASSWORD
 SELECT * FROM dummy_base;

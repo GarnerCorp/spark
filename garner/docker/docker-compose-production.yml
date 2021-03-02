@@ -2,16 +2,45 @@ version: "3.8"
 volumes:
   buckets:
 services:
-  spark-hive:
-    container_name: spark-hive
+  spark-hive-admin:
+    container_name: spark-hive-admin
+    image: spark-hive
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile_Spark_HiveThriftServer2
+    ports:
+      - "10002:10002"
+      - "4040:4040"
+    environment:
+      - SPARK_METASTORE_URL=jdbc:postgresql://spark-postgres-metastore:5432/postgres?createDatabaseIfNotExist=true;autoReconnect=true;useSSL=false
+      - METASTORE_USER=postgres
+      - METASTORE_PASSWORD=Password1!
+      - HIVE_SERVER_PORT=10002
+      - AUTH_DOMAIN=garner.auth0.com
+      - AUTH_CLIENT_ID=1GqAdLq4L6FtOcpFVUfcyO1kqFD7bmvq
+      - AUTH_CLIENT_SECRET=iV09kSY1kaZ_BFSaCkHC9fHeW5KMuQ_jIvkV2JIrA6r0p2oi649LyRwpbfNBZlrU
+      - SPARK_HOME=/opt/spark
+      - DUMMY_EXTERNALS_LOCATION=${SPARK_HOME}/externals
+      - BEELINE_CLASS=org.apache.hive.beeline.BeeLine
+      - LIGHTHOUSE_URL=http://${DOCKER_GATEWAY_HOST:-host.docker.internal}:9000/graph-ql
+      - LOCAL_AUTH_EMAIL=lighthouse-root@garnercorp.com
+      - LOCAL_AUTH_PASSWORD=JR8aA1@Ra/u/ksoZSsd2u9koBG/UjgKT
+      - SPARK_MASTER_URL=spark://spark-master:7077
+    depends_on:
+      - spark-master
+  spark-hive-client:
+    container_name: spark-hive-client
     image: spark-hive
     build:
       context: ..
       dockerfile: docker/Dockerfile_Spark_HiveThriftServer2
     ports:
       - "10001:10001"
-      - "4040:4040"
     environment:
+      - SPARK_METASTORE_URL=jdbc:postgresql://spark-postgres-metastore:5432/postgres?createDatabaseIfNotExist=true;autoReconnect=true;useSSL=false
+      - METASTORE_USER=clienthive
+      - METASTORE_PASSWORD=Password2!
+      - HIVE_SERVER_PORT=10001
       - AUTH_DOMAIN=garner.auth0.com
       - AUTH_CLIENT_ID=1GqAdLq4L6FtOcpFVUfcyO1kqFD7bmvq
       - AUTH_CLIENT_SECRET=iV09kSY1kaZ_BFSaCkHC9fHeW5KMuQ_jIvkV2JIrA6r0p2oi649LyRwpbfNBZlrU
@@ -54,3 +83,22 @@ services:
       - AUTH_CLIENT_SECRET=iV09kSY1kaZ_BFSaCkHC9fHeW5KMuQ_jIvkV2JIrA6r0p2oi649LyRwpbfNBZlrU
     depends_on:
       - spark-master
+  spark-postgres-metastore:
+    container_name: spark-postgres-metastore
+    image: spark-postgres
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile_Postgres
+    environment:
+      - POSTGRES_PASSWORD=Password1!
+    ports:
+      - '5432:5432'
+  spark-pgadmin:
+    container_name: spark-pgadmin
+    image: dpage/pgadmin4
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=user@domain.local
+      - PGADMIN_DEFAULT_PASSWORD=Password1!
+    ports:
+    - '80:80'
+
