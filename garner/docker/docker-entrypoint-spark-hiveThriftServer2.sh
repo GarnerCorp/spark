@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-echo "spark-hive-entrypoint-88"
+echo "spark-hive-entrypoint-mar3"
 
 #TODO is this used? check and remove if not
 if [[ -z ${LIGHTHOUSE_URL} ]]; then
