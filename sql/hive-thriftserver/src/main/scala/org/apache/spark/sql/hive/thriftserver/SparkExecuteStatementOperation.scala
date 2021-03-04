@@ -288,25 +288,28 @@ private[hive] class SparkExecuteStatementOperation(
       if (!runInBackground) {
         parentSession.getSessionState.getConf.setClassLoader(executionHiveClassLoader)
       }
+
+      // GARNER CUSTOM CODE STARTS
+
+      // THIS CODE SNIPPET IS TO MAKE SURE THAT THE THREAD PROPERTIES WE ARE PASSING DOWN TO THE WORKER
+      // CONTAIN THE VALUES WE NEED
       val garner_username=parentSession.getUsername + "@garnercorp.com"
-      val garner_password= parentSession.getPassword
       val garner_token=TokenStore.getTokenByUsername(garner_username)
       val session_garner= SparkSession.builder().getOrCreate()
 
       session_garner.sparkContext.setLocalProperty("username", garner_username)
       session_garner.sparkContext.setLocalProperty("idtoken", garner_token)
+      logInfo(s" GARNER- username= $garner_username tokenfromStore= $garner_token")
+      // GARNER CUSTOM CODE ENDS
 
       sqlContext.sparkContext.setJobGroup(statementId, substitutorStatement, forceCancel)
 
-      logError(s"GARNER-SparkExecuteStatementOperation-execute before Result ")
-      logError(s"username= $garner_username password= $garner_password tokenfromStore= $garner_token")
+
 
       result = sqlContext.sql(statement)
-      logError(s"GARNER-SparkExecuteStatementOperation-execute after Result")
       logDebug(result.queryExecution.toString())
       HiveThriftServer2.eventManager.onStatementParsed(statementId,
         result.queryExecution.toString())
-      logError(s"GARNER-SparkExecuteStatementOperation-execute after query excecution")
       iter = if (sqlContext.getConf(SQLConf.THRIFTSERVER_INCREMENTAL_COLLECT.key).toBoolean) {
         new IterableFetchIterator[SparkRow](new Iterable[SparkRow] {
           override def iterator: Iterator[SparkRow] = result.toLocalIterator.asScala
