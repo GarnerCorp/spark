@@ -16,6 +16,14 @@
         <value>com.garnercorp.thriftserver.authentication.GarnerAuthenticator</value>
     </property>
     <property>
+        <name>hive.server2.thrift.http.cookie.auth.enabled</name>
+        <value>true</value>
+    </property>
+    <property>
+        <name>hive.server2.thrift.http.cookie.max.age</name>
+        <value>120s</value>
+    </property>
+    <property>
         <name>hive.server2.transport.mode</name>
         <value>http</value>
     </property>
