@@ -299,7 +299,7 @@ private[hive] class SparkExecuteStatementOperation(
 
       session_garner.sparkContext.setLocalProperty("username", garner_username)
       session_garner.sparkContext.setLocalProperty("idtoken", garner_token)
-      logInfo(s" GARNER- username= $garner_username tokenfromStore= $garner_token")
+      logError(s" GARNER-CUSTOM HIVESERVER CODE username= $garner_username tokenfromStore= $garner_token")
       // GARNER CUSTOM CODE ENDS
 
       sqlContext.sparkContext.setJobGroup(statementId, substitutorStatement, forceCancel)
