@@ -8,4 +8,4 @@ echo "Copying in postgresql"
 cp -r  ${SPARK_PARENT_LOCATION}/garner/postgres-jar-hack/* ${SPARK_PARENT_LOCATION}/garner/dist/jars
 wait
 echo "Copying in conf"
-cp -r  ${SPARK_PARENT_LOCATION}/conf ${SPARK_PARENT_LOCATION}/garner/dist
+cp -r  ${SPARK_PARENT_LOCATION}/garner/conf ${SPARK_PARENT_LOCATION}/garner/dist

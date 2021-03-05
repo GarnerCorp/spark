@@ -290,7 +290,7 @@ private[hive] class SparkExecuteStatementOperation(
       }
 
       // GARNER CUSTOM CODE STARTS
-
+      logInfo(s"GARNER CUSTOM STARTS")
       // THIS CODE SNIPPET IS TO MAKE SURE THAT THE THREAD PROPERTIES WE ARE PASSING DOWN TO THE WORKER
       // CONTAIN THE VALUES WE NEED
       val garner_username=parentSession.getUsername + "@garnercorp.com"
