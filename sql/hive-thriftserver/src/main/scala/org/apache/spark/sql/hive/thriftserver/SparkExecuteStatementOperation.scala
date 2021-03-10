@@ -290,7 +290,7 @@ private[hive] class SparkExecuteStatementOperation(
       }
 
       // GARNER CUSTOM CODE STARTS
-      logInfo(s"GARNER CUSTOM STARTS")
+      logInfo(s"GARNER-CUSTOM HIVESERVER")
       // THIS CODE SNIPPET IS TO MAKE SURE THAT THE THREAD PROPERTIES WE ARE PASSING DOWN TO THE WORKER
       // CONTAIN THE VALUES WE NEED
       val garner_username=parentSession.getUsername + "@garnercorp.com"
@@ -299,7 +299,7 @@ private[hive] class SparkExecuteStatementOperation(
 
       session_garner.sparkContext.setLocalProperty("username", garner_username)
       session_garner.sparkContext.setLocalProperty("idtoken", garner_token)
-      logInfo(s" GARNER-CUSTOM HIVESERVER CODE username= $garner_username)
+      logInfo(s" GARNER-CUSTOM HIVESERVER CODE username= $garner_username")
       // GARNER CUSTOM CODE ENDS
 
       sqlContext.sparkContext.setJobGroup(statementId, substitutorStatement, forceCancel)
