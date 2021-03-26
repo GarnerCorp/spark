@@ -12,9 +12,7 @@ production-run:
 
 production-build:
 	/bin/zsh ${GARNER_LOCATION}/scripts/copy_files_in.sh; \
-	docker-compose -f ${DOCKER_LOCATION}/docker-compose-production.yml -p ${PROJECT_NAME} build spark-hive-admin; \
-	docker-compose -f ${DOCKER_LOCATION}/docker-compose-production.yml -p ${PROJECT_NAME} build spark-master;  \
-	docker-compose -f ${DOCKER_LOCATION}/docker-compose-production.yml -p ${PROJECT_NAME} build spark-worker-1;
+	docker-compose -f ${DOCKER_LOCATION}/docker-compose-production.yml -p ${PROJECT_NAME} build --parallel spark-hive-admin spark-master spark-worker-1 ; \
 
 production-tag:
 	docker tag spark-worker:latest gcr.io/helical-crowbar-220917/spark-worker:${IMAGE_VERSION}; \
@@ -35,7 +33,7 @@ local-stop:
 	/bin/zsh ${GARNER_LOCATION}/scripts/stop_all_custom.sh;
 
 postgres-build-tag:
-	docker-compose -f ${DOCKER_LOCATION}/docker-compose-production.yml -p ${PROJECT_NAME} build spark-postgres-metastore;
+	docker-compose -f ${DOCKER_LOCATION}/docker-compose-production.yml -p ${PROJECT_NAME} build spark-postgres-metastore-1;
 
 postgres-build-tag-publish:
 	docker-compose -f ${DOCKER_LOCATION}/docker-compose-production.yml -p ${PROJECT_NAME} build spark-postgres-metastore; \

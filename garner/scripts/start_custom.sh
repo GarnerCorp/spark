@@ -1,6 +1,4 @@
 #!/usr/bin/env zsh
-echo "Copying in conf"
-cp -r  ${0:a:h}/../conf ${0:a:h}/../../garner/dist
 /bin/bash $SPARK_HOME/sbin/start-master.sh --host 0.0.0.0
 /bin/bash $SPARK_HOME/sbin/start-slave.sh spark://localhost:7077
 /bin/bash $SPARK_HOME/sbin/start-thriftserver.sh --total-executor-cores 2 --master spark://localhost:7077 \

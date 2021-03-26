@@ -16,4 +16,3 @@ CREATE VIEW materialIsAt AS SELECT materialIsAt_func(Value) FROM dummy_base;
 
 EOF
 
-
