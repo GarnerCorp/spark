@@ -27,7 +27,6 @@ RUN chgrp root /etc/passwd && chmod ug+rw /etc/passwd
 RUN chmod g+w /opt/spark/work-dir
 RUN find /opt/spark/work-dir/docker -type f -iname "*.sh" -exec chmod +x {} \;
 RUN chown -R ${spark_uid} /opt/spark
-RUN chown -R ${spark_uid} /etc
 
 
 WORKDIR /opt/spark/work-dir
