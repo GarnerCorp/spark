@@ -1,4 +1,5 @@
 .PHONY: build-run-production run-production build-run-just-master deploy-just-master build-production build-production tag-production publish-production build-tag-deploy reset-local stop-local
+
 PROJECT_NAME=GARNER-SPARK
 IMAGE_VERSION=latest
 DOCKER_LOCATION=./garner/docker

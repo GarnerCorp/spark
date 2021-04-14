@@ -201,6 +201,10 @@
           <artifactId>groovy-all</artifactId>
           <groupId>org.codehaus.groovy</groupId>
         </exclusion>
+        <exclusion>
+          <artifactId>auth0</artifactId>
+          <groupId>com.auth0</groupId>
+        </exclusion>
       </exclusions>
     </dependency>
     <!--
