@@ -59,4 +59,8 @@
         <name>hadoop.proxyuser.hiveuser.groups</name>
         <value>*</value>
     </property>
+    <property>
+        <name>spark.executor.extraJavaOptions</name>
+        <value>-XX:MaxRAMPercentage=80</value>
+    </property>
 </configuration>
