@@ -60,7 +60,7 @@
         <value>*</value>
     </property>
     <property>
-        <name>spark.executor.extraJavaOptions</name>
-        <value>-XX:MaxRAMPercentage=80</value>
+        <name>spark.executor.memory</name>
+        <value>10g</value>
     </property>
 </configuration>
