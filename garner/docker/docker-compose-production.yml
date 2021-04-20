@@ -29,6 +29,7 @@ services:
       - PARTY_MEASURE_TABLE=Platform
       - PROD_MAX_PAGES=1
       - PROD_MAX_PAGE_SIZE=10
+      - SPARK_EXECUTOR_MEMORY=1g
     depends_on:
       - spark-master
   spark-hive-client:
@@ -54,6 +55,7 @@ services:
       - LOCAL_AUTH_EMAIL=lighthouse-root@garnercorp.com
       - LOCAL_AUTH_PASSWORD=JR8aA1@Ra/u/ksoZSsd2u9koBG/UjgKT
       - SPARK_MASTER_URL=spark://spark-master:7077
+      - SPARK_EXECUTOR_MEMORY=2g
     depends_on:
       - spark-master
   spark-master:
