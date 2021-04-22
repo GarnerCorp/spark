@@ -82,8 +82,8 @@ services:
       - LIGHTHOUSE_URL=http://${DOCKER_GATEWAY_HOST:-host.docker.internal}:9000/graph-ql
       - AUTH_DOMAIN=garner.auth0.com
       - PARTY_MEASURE_TABLE=Platform
-      - MAX_PAGES=10
-      - MAX_PAGE_SIZE=100
+      - MAX_PAGES=1000
+      - MAX_PAGE_SIZE=10
     depends_on:
       - spark-master
   spark-postgres-metastore-1:

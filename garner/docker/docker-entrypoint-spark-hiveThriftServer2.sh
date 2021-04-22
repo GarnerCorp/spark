@@ -12,6 +12,7 @@ fi
   --hiveconf javax.jdo.option.ConnectionUserName=$METASTORE_USER \
   --hiveconf javax.jdo.option.ConnectionPassword=$METASTORE_PASSWORD \
   --hiveconf hive.server2.thrift.http.port=$HIVE_SERVER_PORT \
-  --hiveconf spark.executor.memory=$SPARK_EXECUTOR_MEMORY
+  --hiveconf spark.executor.memory=$SPARK_EXECUTOR_MEMORY \
+  --name "Thriftserver-${METASTORE_USER}"
 
 exec tail -f $SPARK_HOME/logs/*org.apache.spark.sql.hive.thriftserver.HiveThriftServer*.out
