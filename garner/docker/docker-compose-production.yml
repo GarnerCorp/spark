@@ -83,7 +83,7 @@ services:
       - AUTH_DOMAIN=garner.auth0.com
       - PARTY_MEASURE_TABLE=Platform
       - MAX_PAGES=1000
-      - MAX_PAGE_SIZE=10
+      - MAX_PAGE_SIZE=1000
     depends_on:
       - spark-master
   spark-postgres-metastore-1:
