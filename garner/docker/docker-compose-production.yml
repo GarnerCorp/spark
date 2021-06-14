@@ -83,7 +83,7 @@ services:
       - AUTH_DOMAIN=garner.auth0.com
       - PARTY_MEASURE_TABLE=Platform
       - MAX_PAGES=1000
-      - MAX_PAGE_SIZE=1000
+      - MAX_PAGE_SIZE=50
     depends_on:
       - spark-master
   spark-postgres-metastore-1:
@@ -104,4 +104,10 @@ services:
       - PGADMIN_DEFAULT_PASSWORD=Password1!
     ports:
     - '80:80'
+  spark-maintainer:
+      container_name: spark-maintainer
+      image: spark-maintainer
+      build:
+        context: ..
+        dockerfile: docker/Dockerfile_Spark_Garner_Maintainer
 

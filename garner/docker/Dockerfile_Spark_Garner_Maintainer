@@ -1,0 +1,30 @@
+FROM gcr.io/google.com/cloudsdktool/cloud-sdk:alpine
+RUN apk --update add openjdk8-jre
+RUN gcloud components install app-engine-java kubectl
+
+RUN apk add --no-cache python3 py3-pip
+
+
+#grab my spark stuff (not strickyl needed by beeline is hard to disentagle
+ARG spark_uid=185
+ARG spark_username=sparky
+#location relative to context (spark fork project)
+ARG runnable_location=./dist
+ARG conf_location=./conf
+ARG externals_location=./externals
+ARG docker_location=./docker
+COPY ${runnable_location}/jars /opt/spark/jars
+COPY ${runnable_location}/bin /opt/spark/bin
+COPY ${runnable_location}/sbin /opt/spark/sbin
+COPY ${conf_location} /opt/spark/conf
+COPY ${runnable_location}/data /opt/spark/data
+COPY ${externals_location}/externals /opt/spark/externals
+COPY ${docker_location} /opt/spark/work-dir/docker
+
+ENV PYTHONUNBUFFERED=1
+
+WORKDIR /app
+COPY ./maintainer .
+RUN pip3 install -r requirements.txt
+
+CMD [ "python3", "main.py", "-k"]

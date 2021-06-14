@@ -139,7 +139,7 @@
     <dependency>
       <groupId>com.garnercorp</groupId>
       <artifactId>garner-spark-functions_2.13</artifactId>
-      <version>1.2.1</version>
+      <version>1.3.1</version>
       <exclusions>
         <exclusion>
           <artifactId>log4j-slf4j-impl</artifactId>
@@ -148,6 +148,14 @@
         <exclusion>
           <artifactId>hive-exec</artifactId>
           <groupId>org.apache.hive</groupId>
+        </exclusion>
+        <exclusion>
+          <artifactId>spark-core</artifactId>
+          <groupId>spark</groupId>
+        </exclusion>
+        <exclusion>
+          <artifactId>spark-sql</artifactId>
+          <groupId>spark</groupId>
         </exclusion>
         <exclusion>
           <artifactId>hive-common</artifactId>
@@ -213,6 +221,10 @@
           <artifactId>auth0</artifactId>
           <groupId>com.auth0</groupId>
         </exclusion>
+        <exclusion>
+          <artifactId>auth0</artifactId>
+          <groupId>com.auth0</groupId>
+        </exclusion>
       </exclusions>
     </dependency>
     <!--
@@ -224,6 +236,8 @@
       <version>42.2.12</version>
       <scope>compile</scope>
     </dependency>
+
+
     <dependency>
       <groupId>com.garnercorp</groupId>
       <artifactId>garner-spark-authentication_2.13</artifactId>
@@ -280,6 +294,14 @@
         <exclusion>
           <artifactId>log4j</artifactId>
           <groupId>log4j</groupId>
+        </exclusion>
+        <exclusion>
+          <artifactId>spark-core</artifactId>
+          <groupId>spark</groupId>
+        </exclusion>
+        <exclusion>
+          <artifactId>spark-sql</artifactId>
+          <groupId>spark</groupId>
         </exclusion>
         <exclusion>
           <artifactId>commons-logging</artifactId>

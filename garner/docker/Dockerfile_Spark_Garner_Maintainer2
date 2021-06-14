@@ -1,0 +1,59 @@
+#Linux base
+FROM alpine:3.7
+
+
+# GEttign JAVAS
+RUN apk update \
+&& apk upgrade \
+&& apk add --no-cache bash \
+&& apk add --no-cache --virtual=build-dependencies unzip \
+&& apk add --no-cache curl \
+&& apk add --no-cache openjdk8-jre
+
+
+# getting python
+RUN apk add --no-cache python3 \
+&& python3 -m ensurepip \
+&& pip3 install --upgrade pip setuptools \
+&& rm -r /usr/lib/python*/ensurepip && \
+if [ ! -e /usr/bin/pip ]; then ln -s pip3 /usr/bin/pip ; fi && \
+if [[ ! -e /usr/bin/python ]]; then ln -sf /usr/bin/python3 /usr/bin/python; fi && \
+rm -r /root/.cache
+
+
+## get kubectl
+#RUN apk add curl && \
+#curl -LO https://storage.googleapis.com/kubernetes-release/release/`curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt`/bin/linux/amd64/kubectl && \
+#chmod +x ./kubectl && \
+#mv ./kubectl /usr/local/bin/kubectl
+RUN apk --update add openjdk7-jre
+RUN gcloud components install app-engine-java kubectl
+
+
+
+ENV JAVA_HOME="/usr/lib/jvm/java-1.8-openjdk"
+
+
+#grab my spark stuff (not strickyl needed by beeline is hard to disentagle
+ARG spark_uid=185
+ARG spark_username=sparky
+#location relative to context (spark fork project)
+ARG runnable_location=./dist
+ARG conf_location=./conf
+ARG externals_location=./externals
+ARG docker_location=./docker
+COPY ${runnable_location}/jars /opt/spark/jars
+COPY ${runnable_location}/bin /opt/spark/bin
+COPY ${runnable_location}/sbin /opt/spark/sbin
+COPY ${conf_location} /opt/spark/conf
+COPY ${runnable_location}/data /opt/spark/data
+COPY ${externals_location}/externals /opt/spark/externals
+COPY ${docker_location} /opt/spark/work-dir/docker
+
+
+WORKDIR /app
+COPY ./maintainer .
+RUN pip3 install -r requirements.txt
+
+
+CMD [ "python3", "running.py"]

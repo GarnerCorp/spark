@@ -59,4 +59,8 @@
         <name>hadoop.proxyuser.hiveuser.groups</name>
         <value>*</value>
     </property>
+    <property>
+        <name>spark.sql.thriftServer.incrementalCollect</name>
+        <value>true</value>
+    </property>
 </configuration>

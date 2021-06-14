@@ -43,3 +43,12 @@ postgres-build-tag-publish:
 
 make-runnable-distribution:
 	/bin/zsh  ${GARNER_LOCATION}/scripts/make_distribution.sh;
+
+maintainer-build-tag-publish:
+	docker-compose -f ${DOCKER_LOCATION}/docker-compose-production.yml -p ${PROJECT_NAME} build spark-maintainer; \
+	docker tag spark-maintainer:latest gcr.io/helical-crowbar-220917/spark-maintainer:${IMAGE_VERSION}; \
+	docker push gcr.io/helical-crowbar-220917/spark-maintainer:${IMAGE_VERSION};
+
+maintainer-build-tag:
+	docker-compose -f ${DOCKER_LOCATION}/docker-compose-production.yml -p ${PROJECT_NAME} build spark-maintainer; \
+	docker tag spark-maintainer:latest gcr.io/helical-crowbar-220917/spark-maintainer:${IMAGE_VERSION};

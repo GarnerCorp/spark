@@ -1,0 +1,24 @@
+spark-live:
+- table_name: default.PartyMeasureUDTF
+  function_path: com.garnercorp.udfs.views.PartyMeasuresTable.PartyMeasureUDTF
+- table_name: default.materials_pmsr
+  function_path: com.garnercorp.udfs.views.goldenpass.material.pmsr.MaterialUDTF
+- table_name: default.materials_bom_bi0
+  function_path: com.garnercorp.udfs.views.goldenpass.material.bombi.bi0.MaterialUDTFBI0
+- table_name: default.materials_bom_bi1
+  function_path: com.garnercorp.udfs.views.goldenpass.material.bombi.bi1.MaterialUDTFBI1
+- table_name: default.materials_bom_bi2
+  function_path: com.garnercorp.udfs.views.goldenpass.material.bombi.bi2.MaterialUDTFBI2
+- table_name: default.materials_bom_bi3
+  function_path: com.garnercorp.udfs.views.goldenpass.material.bombi.bi3.MaterialUDTFBI3
+- table_name: default.materials_bom_bi4
+  function_path: com.garnercorp.udfs.views.goldenpass.material.bombi.bi4.MaterialUDTFBI4
+- table_name: default.materials_bom_bi5
+  function_path: com.garnercorp.udfs.views.goldenpass.material.bombi.bi5.MaterialUDTFBI5
+- table_name: default.materials_bom_bi6
+  function_path: com.garnercorp.udfs.views.goldenpass.material.bombi.bi6.MaterialUDTFBI6
+- table_name: default.materials_bom_bi7
+  function_path: com.garnercorp.udfs.views.goldenpass.material.bombi.bi7.MaterialUDTFBI7
+spark-chad:
+  - table_name: default.materials
+    function_path: com.garnercorp.udfs.views.controlcenter.material.MaterialUDTF

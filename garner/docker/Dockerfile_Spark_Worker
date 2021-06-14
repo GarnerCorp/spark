@@ -20,7 +20,7 @@ COPY ${runnable_location}/data /opt/spark/data
 COPY ${externals_location}/externals /opt/spark/externals
 COPY ${docker_location} /opt/spark/work-dir/docker
 
-RUN apt-get update && apt-get install less
+#RUN apt-get update && apt-get install less
 #less tool for testing purposes
 
 RUN chgrp root /etc/passwd && chmod ug+rw /etc/passwd

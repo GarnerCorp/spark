@@ -25,6 +25,7 @@ import scala.collection.JavaConverters._
 import scala.collection.mutable.ArrayBuffer
 import scala.util.control.NonFatal
 
+import com.garnercorp.thriftserver.authentication.TokenStore
 import org.apache.hadoop.hive.metastore.api.FieldSchema
 import org.apache.hadoop.hive.shims.Utils
 import org.apache.hive.service.cli._
@@ -33,6 +34,7 @@ import org.apache.hive.service.cli.session.HiveSession
 
 import org.apache.spark.internal.Logging
 import org.apache.spark.sql.{DataFrame, Row => SparkRow, SQLContext}
+import org.apache.spark.sql.SparkSession
 import org.apache.spark.sql.execution.HiveResult.{getTimeFormatters, toHiveString, TimeFormatters}
 import org.apache.spark.sql.internal.SQLConf
 import org.apache.spark.sql.internal.VariableSubstitution
@@ -40,8 +42,6 @@ import org.apache.spark.sql.types._
 import org.apache.spark.unsafe.types.CalendarInterval
 import org.apache.spark.util.{Utils => SparkUtils}
 
-import org.apache.spark.sql.SparkSession
-import com.garnercorp.thriftserver.authentication.TokenStore
 
 private[hive] class SparkExecuteStatementOperation(
     val sqlContext: SQLContext,
@@ -291,14 +291,16 @@ private[hive] class SparkExecuteStatementOperation(
 
       // GARNER CUSTOM CODE STARTS
       logInfo(s"GARNER-CUSTOM HIVESERVER")
-      // THIS CODE SNIPPET IS TO MAKE SURE THAT THE THREAD PROPERTIES WE ARE PASSING DOWN TO THE WORKER
+      // THIS CODE SNIPPET IS TO MAKE SURE
+      // THAT THE THREAD PROPERTIES WE ARE PASSING DOWN TO THE WORKER
       // CONTAIN THE VALUES WE NEED
-      val garner_username=parentSession.getUsername + "@garnercorp.com"
-      val garner_token=TokenStore.getTokenByUsername(garner_username)
-      val session_garner= SparkSession.builder().getOrCreate()
+      val garner_username = parentSession.getUsername + "@garnercorp.com"
+      val garner_token = TokenStore.getTokenByUsername(garner_username)
+      val session_garner = SparkSession.builder().getOrCreate()
 
       session_garner.sparkContext.setLocalProperty("username", garner_username)
       session_garner.sparkContext.setLocalProperty("idtoken", garner_token)
+      session_garner.sparkContext.setLocalProperty("statement", statement)
       logInfo(s" GARNER-CUSTOM HIVESERVER CODE username= $garner_username")
       // GARNER CUSTOM CODE ENDS
 
