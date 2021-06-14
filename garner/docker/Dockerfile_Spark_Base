@@ -1,0 +1,36 @@
+FROM adoptopenjdk:11-jre-openj9
+#COPY --from=python:3.6 / /
+#might not need this as we dont uses any pyspark
+
+ARG spark_uid=185
+ARG spark_username=sparky
+#location relative to context (spark fork project)
+ARG runnable_location=./dist
+ARG conf_location=./conf
+ARG externals_location=./externals
+ARG docker_location=./docker
+
+RUN useradd -u ${spark_uid} ${spark_username}
+
+COPY ${runnable_location}/jars /opt/spark/jars
+COPY ${runnable_location}/bin /opt/spark/bin
+COPY ${runnable_location}/sbin /opt/spark/sbin
+COPY ${conf_location} /opt/spark/conf
+COPY ${runnable_location}/data /opt/spark/data
+COPY ${externals_location}/externals /opt/spark/externals
+COPY ${docker_location} /opt/spark/work-dir/docker
+
+#RUN apt-get update && apt-get install less
+#less tool for testing purposes
+
+RUN chgrp root /etc/passwd && chmod ug+rw /etc/passwd
+RUN chmod g+w /opt/spark/work-dir
+RUN find /opt/spark/work-dir/docker -type f -iname "*.sh" -exec chmod +x {} \;
+RUN chown -R ${spark_uid} /opt/spark
+
+
+WORKDIR /opt/spark/work-dir
+USER ${spark_uid}
+ENTRYPOINT ["/opt/spark/work-dir/docker/docker-entrypoint-spark-master.sh"]
+
+

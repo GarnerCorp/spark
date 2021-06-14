@@ -46,6 +46,7 @@ dev/create-release/*final
 dev/create-release/*txt
 dev/pr-deps/
 dist/
+dist*/
 docs/_site/
 docs/api
 sql/docs

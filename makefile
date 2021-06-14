@@ -12,7 +12,6 @@ production-run:
 	docker-compose -f ${DOCKER_LOCATION}/docker-compose-production.yml -p ${PROJECT_NAME} up;
 
 production-build:
-	/bin/zsh ${GARNER_LOCATION}/scripts/copy_files_in.sh; \
 	docker-compose -f ${DOCKER_LOCATION}/docker-compose-production.yml -p ${PROJECT_NAME} build --parallel spark-hive-admin spark-master spark-worker-1 ; \
 
 production-tag:
@@ -52,3 +51,16 @@ maintainer-build-tag-publish:
 maintainer-build-tag:
 	docker-compose -f ${DOCKER_LOCATION}/docker-compose-production.yml -p ${PROJECT_NAME} build spark-maintainer; \
 	docker tag spark-maintainer:latest gcr.io/helical-crowbar-220917/spark-maintainer:${IMAGE_VERSION};
+
+maintainer-base-build-tag-publish:
+	docker-compose -f ${DOCKER_LOCATION}/docker-compose-production.yml -p ${PROJECT_NAME} build spark-maintainer-base; \
+	docker tag spark-maintainer-base:latest gcr.io/helical-crowbar-220917/spark-maintainer-base:${IMAGE_VERSION}; \
+	docker push gcr.io/helical-crowbar-220917/spark-maintainer-base:${IMAGE_VERSION};
+
+base-build-tag:
+	/bin/zsh ${GARNER_LOCATION}/scripts/copy_files_in.sh; \	
+	docker-compose -f ${DOCKER_LOCATION}/docker-compose-production.yml -p ${PROJECT_NAME} build spark-base; \
+	docker tag spark-base:latest gcr.io/helical-crowbar-220917/spark-base:${IMAGE_VERSION};
+
+base-build-tag-publish: base-build-tag
+	docker push gcr.io/helical-crowbar-220917/spark-base:${IMAGE_VERSION};

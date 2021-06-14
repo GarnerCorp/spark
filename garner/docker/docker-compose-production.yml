@@ -110,4 +110,16 @@ services:
       build:
         context: ..
         dockerfile: docker/Dockerfile_Spark_Garner_Maintainer
+  spark-maintainer-base:
+      container_name: spark-maintainer-base
+      image: spark-maintainer-base
+      build:
+        context: ..
+        dockerfile: docker/Dockerfile_Spark_Garner_Maintainer_Base
+  spark-base:
+    container_name: spark-base
+    image: spark-base
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile_Spark_Base
 
