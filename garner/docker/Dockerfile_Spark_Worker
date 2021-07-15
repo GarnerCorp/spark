@@ -1,3 +1,0 @@
-FROM gcr.io/helical-crowbar-220917/spark-base
-
-ENTRYPOINT ["/opt/spark/work-dir/docker/docker-entrypoint-spark-worker.sh"]

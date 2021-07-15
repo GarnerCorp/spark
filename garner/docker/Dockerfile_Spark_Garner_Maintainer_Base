@@ -1,4 +1,4 @@
-FROM gcr.io/google.com/cloudsdktool/cloud-sdk:alpine
+FROM gcr.io/google.com/cloudsdktool/cloud-sdk:326.0.0-alpine
 RUN apk --update add openjdk8-jre
 RUN gcloud components install app-engine-java kubectl
 
